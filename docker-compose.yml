@@ -1,0 +1,24 @@
+version: '3'
+services:
+  grade_service:
+    build:
+      context: .
+      dockerfile: Dockerfile.grade_service
+    ports:
+      - "5001:5001"
+  calculate_scores:
+    build:
+      context: .
+      dockerfile: Dockerfile.calculate_scores
+    depends_on:
+      - grade_service
+    ports:
+      - "5002:5002"
+  generate_statistics:
+    build:
+      context: .
+      dockerfile: Dockerfile.generate_statistics
+    depends_on:
+      - calculate_scores
+    ports:
+      - "5003:5003"
